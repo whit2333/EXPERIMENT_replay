@@ -33,5 +33,5 @@ itov4out
 end epics
 
 #include "DEF-files/COIN/PRODUCTION/GTR/coin_gtr_histos.def"
-#include "DEF-files/COIN/PRODUCTION/KIN/coin_sidis_kin_histos.def"
+#include "UTIL_SIDIS/DEF-files/coin_sidis_kin_histos.def"
 #include "DEF-files/COIN/PRODUCTION/TRIG/coin_trig_histos.def"

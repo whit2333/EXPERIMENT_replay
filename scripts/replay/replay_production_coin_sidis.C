@@ -228,9 +228,9 @@ void replay_production_coin_sidis (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   // Define output ROOT file
   analyzer->SetOutFile(ROOTFileName.Data());
   // Define DEF-file+
-  analyzer->SetOdefFile("DEF-files/COIN/PRODUCTION/coin_production_sidis.def");
+  analyzer->SetOdefFile("UTIL_SIDIS/DEF-files/coin_production_sidis.def");
   // Define cuts file
-  analyzer->SetCutFile("DEF-files/COIN/PRODUCTION/CUTS/coin_production_sidis_cuts.def");  // optional
+  analyzer->SetCutFile("UTIL_SIDIS/DEF-files/coin_production_sidis_cuts.def");  // optional
   // File to record accounting information for cuts
   analyzer->SetSummaryFile(Form("REPORT_OUTPUT/COIN/PRODUCTION/summary_production_%d_%d.report", RunNumber, MaxEvent));  // optional
   // Start the actual analysis.
