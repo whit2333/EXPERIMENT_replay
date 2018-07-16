@@ -13,8 +13,8 @@ the `UTIL` directory.
 ## Note about submodules
 
 Notice that on github, there is an @COMMIT hash after `hallc_replay` and 
-`hallc_CALIBRATIONS`.  This means that specific commit is used. It can be 
-changed by doing the following:
+`hallc_CALIBRATIONS`.  This means that a specific commit is used, that is it 
+will never just grab the master. It can be changed by doing the following:
 
 ```
 cd hallc_replay
