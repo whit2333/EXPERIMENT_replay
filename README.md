@@ -1,5 +1,9 @@
-SIDIS Experiment replay scripts
-===============================
+EXPERIMENT replay 
+=================
+
+This repo should be forked by EXPERIMENT, renamed (eg EXPERIMENT->SIDIS), and 
+setup a new "upstream" remote. (Please keep the commit history so new 
+non-experiment specific features can always be pushed upstream).
 
 This was the `UTIL_SIDS` repository and all files were moved into the `UTIL` 
 directory.
