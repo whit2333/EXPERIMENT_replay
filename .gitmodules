@@ -2,3 +2,6 @@
 	path = hallc_replay
 	url = https://github.com/whit2333/hallc_replay
 	branch = no_submodules
+[submodule "hallc_CALIBRATION"]
+	path = hallc_CALIBRATION
+	url = https://github.com/whit2333/hallc_CALIBRATION.git
