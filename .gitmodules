@@ -1,0 +1,4 @@
+[submodule "hallc_replay"]
+	path = hallc_replay
+	url = https://github.com/whit2333/hallc_replay
+	branch = no_submodules
