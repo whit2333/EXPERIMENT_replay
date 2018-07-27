@@ -34,6 +34,20 @@ it to the older `EXPERIMENT_replay` (like above).
 
 ## Tips 
 
+To make the directories look like the original `hallc_replay` run the script 
+`make_symbolic_links`:
+```
+$ ./make_symbolic_links
+Adding linke CALIBRATION --> hallc_CALIBRATION/CALIBRATION
+Adding linke DBASE --> hallc_replay/DBASE
+Adding linke DEF-files --> hallc_replay/DEF-files
+Adding linke MAPS --> hallc_replay/MAPS
+Adding linke PARAM --> hallc_replay/PARAM
+Adding linke TEMPLATES --> hallc_replay/TEMPLATES
+Adding linke SCRIPTS --> hallc_replay/SCRIPTS
+```
+
+
 ```
 ln -s /work/hallc/c-csv/work/rootfiles
 ln -s /cache/mss/hallc/blab/raw
