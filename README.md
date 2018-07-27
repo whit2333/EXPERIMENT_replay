@@ -5,7 +5,7 @@ This repo should be forked by EXPERIMENT, renamed (eg EXPERIMENT->SIDIS), and
 setup a new "upstream" remote. (Please keep the commit history so new 
 non-experiment specific features can always be pushed upstream).
 
-This repo was fored from `UTIL_SIDIS` repository and all files were moved into 
+This repo was forked from `UTIL_SIDIS` repository and all files were moved into 
 the `UTIL` directory.
 
 
@@ -32,3 +32,19 @@ it to the older `EXPERIMENT_replay` (like above).
 
 
 
+## Tips 
+
+```
+ln -s /work/hallc/c-csv/work/rootfiles
+ln -s /cache/mss/hallc/blab/raw
+
+.
+├── CALIBRATION -> hallc_CALIBRATION/CALIBRATION
+├── DBASE -> hallc_replay/DBASE
+├── DEF-files -> hallc_replay/DEF-files
+├── MAPS -> hallc_replay/MAPS
+├── PARAM -> hallc_replay/PARAM/
+├── raw -> /home/whit/globus_files/hallc/raw/
+├── rootfiles -> /home/whit/globus_files/hallc/rootfiles/
+
+```

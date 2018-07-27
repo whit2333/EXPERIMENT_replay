@@ -1,0 +1,45 @@
+#!/bin/bash
+
+for adir in CALIBRATION
+do
+  my_link=hallc_CALIBRATION/${adir}
+  echo ${adir}
+  if [ -L ${adir} ] ; then
+    if [ -e ${adir} ] ; then
+      echo "Good link"
+    else
+      echo "Fixing broken link ${adir} --> ${my_link}"
+      rm ${adir}
+      ln -s ${my_link} ${adir}
+    fi
+  elif [ -e ${adir} ] ; then
+    echo "Not a link"
+  else
+    echo "Adding linke ${adir} --> ${my_link}"
+    ln -s ${my_link} ${adir}
+  fi
+done
+
+for adir in CALIBRATION DBASE DEF-files MAPS PARAM TEMPLATES SCRIPTS
+do
+  my_link=hallc_replay/${adir}
+  echo ${adir}
+  if [ -L ${adir} ] ; then
+    if [ -e ${adir} ] ; then
+      echo "Good link"
+    else
+      echo "Fixing broken link ${adir} --> ${my_link}"
+      rm ${adir}
+      ln -s ${my_link} ${adir}
+    fi
+  elif [ -e ${adir} ] ; then
+    echo "Not a link"
+  else
+    echo "Adding linke ${adir} --> ${my_link}"
+    ln -s ${my_link} ${adir}
+  fi
+done
+#raw -> /home/whit/globus_files/hallc/raw/
+#rootfiles -> /home/whit/globus_files/hallc/rootfiles/
+
+
