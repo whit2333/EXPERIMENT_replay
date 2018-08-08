@@ -1,0 +1,11 @@
+build/*
+CALIBRATION
+DBASE
+DEF-files
+MAPS
+PARAM
+SCRIPTS
+TEMPLATES
+ROOTfiles
+raw
+rootfiles

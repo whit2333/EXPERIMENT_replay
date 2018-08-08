@@ -15,7 +15,9 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hallc_replay_config.h
   DESTINATION include
   )
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hallc_config
+install(FILES 
+  ${CMAKE_CURRENT_BINARY_DIR}/hallc_config
+  cmake/make_hallc_replay_symlinks
   DESTINATION bin
   PERMISSIONS WORLD_READ WORLD_EXECUTE OWNER_EXECUTE OWNER_WRITE OWNER_READ
   )

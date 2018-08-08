@@ -1,6 +1,35 @@
 EXPERIMENT replay 
 =================
 
+## Quick Start
+
+```
+git clone --recurse-submodules https://github.com/whit2333/EXPERIMENT_replay.git
+mkdir EXPERIMENT_replay/build && cd EXPERIMENT_replay/build
+cmake ../. -DCMAKE_INSTALL_PREFIX=$HOME && make install
+```
+This  installs a few scripts and a header file.
+
+
+
+## Tips 
+
+To make the directories look like the original `hallc_replay` run the script 
+`make_symbolic_links`:
+```
+$ mkdir -p /tmp/my_replay_dir && cd /tmp/my_replay_dir
+make_hallc_symlinks
+Adding linke CALIBRATION --> hallc_CALIBRATION/CALIBRATION
+Adding linke DBASE --> hallc_replay/DBASE
+Adding linke DEF-files --> hallc_replay/DEF-files
+Adding linke MAPS --> hallc_replay/MAPS
+Adding linke PARAM --> hallc_replay/PARAM
+Adding linke TEMPLATES --> hallc_replay/TEMPLATES
+Adding linke SCRIPTS --> hallc_replay/SCRIPTS
+```
+
+## About 
+
 This repo should be forked by EXPERIMENT, renamed (eg EXPERIMENT->SIDIS), and 
 setup a new "upstream" remote. (Please keep the commit history so new 
 non-experiment specific features can always be pushed upstream).
@@ -10,7 +39,7 @@ the `UTIL` directory.
 
 
 
-## Note about submodules
+### Note about submodules
 
 Notice that on github, there is an @COMMIT hash after `hallc_replay` and 
 `hallc_CALIBRATIONS`.  This means that a specific commit is used, that is it 
@@ -32,33 +61,5 @@ it to the older `EXPERIMENT_replay` (like above).
 
 
 
-## Tips 
-
-To make the directories look like the original `hallc_replay` run the script 
-`make_symbolic_links`:
-```
-$ ./make_symbolic_links
-Adding linke CALIBRATION --> hallc_CALIBRATION/CALIBRATION
-Adding linke DBASE --> hallc_replay/DBASE
-Adding linke DEF-files --> hallc_replay/DEF-files
-Adding linke MAPS --> hallc_replay/MAPS
-Adding linke PARAM --> hallc_replay/PARAM
-Adding linke TEMPLATES --> hallc_replay/TEMPLATES
-Adding linke SCRIPTS --> hallc_replay/SCRIPTS
-```
 
 
-```
-ln -s /work/hallc/c-csv/work/rootfiles
-ln -s /cache/mss/hallc/blab/raw
-
-.
-├── CALIBRATION -> hallc_CALIBRATION/CALIBRATION
-├── DBASE -> hallc_replay/DBASE
-├── DEF-files -> hallc_replay/DEF-files
-├── MAPS -> hallc_replay/MAPS
-├── PARAM -> hallc_replay/PARAM/
-├── raw -> /home/whit/globus_files/hallc/raw/
-├── rootfiles -> /home/whit/globus_files/hallc/rootfiles/
-
-```
