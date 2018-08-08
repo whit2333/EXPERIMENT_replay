@@ -1,0 +1,127 @@
+#!/bin/bash
+set -u 
+
+package=make_hallc_replay_symlinks
+
+REMOVE_LINKS=
+CREATE_DIRS=
+
+while test $# -gt 0; do
+  case "$1" in
+    -h|--help)
+      echo "$package - emulate hallc_replay directory with symbolic links "
+      echo "  Usage:"
+      echo "     $package [options] "
+      echo "      "
+      echo "  options:"
+      echo "     -c, --create      create output directories (REPORT_OUTPUT)"
+      echo "     -r, --remove      remove symlinks"
+      echo "     -h, --help        show brief help"
+      #echo "-o, --output-dir=DIR      specify a directory to store output in"
+      exit 0
+      ;;
+    -r|--remove)
+      REMOVE_LINKS=1
+      shift
+      ;;
+    -c|--create)
+      CREATE_DIRS=1
+      shift
+      ;;
+    #--action*)
+    #  export PROCESS=`echo $1 | sed -e 's/^[^=]*=//g'`
+    #  shift
+    #  ;;
+    #-o)
+    #  shift
+    #  if test $# -gt 0; then
+    #    export OUTPUT=$1
+    #  else
+    #    echo "no output dir specified"
+    #    exit 1
+    #  fi
+    #  shift
+    #  ;;
+    #--output-dir*)
+    #  export OUTPUT=`echo $1 | sed -e 's/^[^=]*=//g'`
+    #  shift
+    #  ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+
+function dolinks {
+  adir=$1
+  my_link=$2
+  if [ -L ${adir} ] ; then
+    if [ -e ${adir} ] ; then
+      #echo "Good link"
+      if [ -n "${REMOVE_LINKS}" ] ; then
+        echo "removing link ${adir} --> ${my_link}"
+        rm ${adir}
+      fi
+    else
+      if [ -n "${REMOVE_LINKS}" ] ; then
+        echo "removing link ${adir} --> ${my_link}"
+        rm ${adir}
+      else 
+        echo "Fixing broken link ${adir} --> ${my_link}"
+        ln -s ${my_link} ${adir}
+      fi
+    fi
+  elif [ -e ${adir} ] ; then
+    echo "Not a link"
+  else
+    if [ -z ${REMOVE_LINKS} ] ; then
+      echo "Adding link ${adir} --> ${my_link}"
+      ln -s ${my_link} ${adir}
+    fi
+  fi
+}
+
+function make_output_dirs(){
+  # Creates the non-symlinked replay directores such as
+  # REPORT_OUTPUT
+  # ROOTfiles
+  mkdir -p REPORT_OUTPUT/SHMS/PRODUCTION
+  mkdir -p REPORT_OUTPUT/HMS/PRODUCTION
+  mkdir -p REPORT_OUTPUT/COIN/PRODUCTION
+  mkdir -p REPORT_OUTPUT/SHMS/SCALERS
+  mkdir -p REPORT_OUTPUT/HMS/SCALERS
+  mkdir -p REPORT_OUTPUT/COIN/SCALERS
+
+  echo "created directories: "
+  echo "  REPORT_OUTPUT/SHMS/PRODUCTION"
+  echo "  REPORT_OUTPUT/HMS/PRODUCTION"
+  echo "  REPORT_OUTPUT/COIN/PRODUCTION"
+  echo "  REPORT_OUTPUT/SHMS/SCALERS"
+  echo "  REPORT_OUTPUT/HMS/SCALERS"
+  echo "  REPORT_OUTPUT/COIN/SCALERS"
+}
+
+# -------------------------------------
+#  main script 
+# -------------------------------------
+
+replay_base_dir=$(hallc_config --dir)
+
+for adir in CALIBRATION
+do
+  my_link=${replay_base_dir}/hallc_CALIBRATION/${adir}
+  dolinks ${adir} ${my_link}
+done
+
+for adir in  DBASE DEF-files MAPS PARAM TEMPLATES SCRIPTS onlineGUI
+do
+  my_link=${replay_base_dir}/hallc_replay/${adir}
+  dolinks ${adir} ${my_link}
+done
+
+if [ -n "${CREATE_DIRS}" ] ; then
+  make_output_dirs
+fi
+
+
