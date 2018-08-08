@@ -3,19 +3,23 @@ EXPERIMENT replay
 
 ## Quick Start
 
+### Install and configure
 ```
 git clone --recurse-submodules https://github.com/whit2333/EXPERIMENT_replay.git
 mkdir EXPERIMENT_replay/build && cd EXPERIMENT_replay/build
 cmake ../. -DCMAKE_INSTALL_PREFIX=$HOME && make install
 ```
-If you install into `$HOME` then make sure you have something like this in your 
-`.bashrc`:
+This installs a few scripts, header files, and cmake config to locate these 
+headers. If you install into `$HOME` then make sure you have something like 
+this in your `.bashrc`:
 ```
 export PATH=$HOME/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/lib:$HOME/lib64:$LD_LIBRARY_PATH
 ```
 
-This  installs a few scripts and a header file.
+### New replay dir
+
+The following will setup a new replay directory in your home directory.
 
 ```
 mkdir $HOME/my_replay_dir && cd $HOME/my_replay_dir
@@ -35,6 +39,22 @@ tree
 ├── SCRIPTS -> /home/whit/projects/EXPERIMENT_replay/hallc_replay/SCRIPTS
 └── TEMPLATES -> /home/whit/projects/EXPERIMENT_replay/hallc_replay/TEMPLATES
 ```
+
+### `make_hallc_replay_symlinks` usage
+```
+make_hallc_replay_symlinks - emulate hallc_replay directory with symbolic links
+  Usage:
+     make_hallc_replay_symlinks [options]
+
+  options:
+     -c, --create         create output directories (REPORT_OUTPUT)
+     -r, --raw <dir>      create link to raw directory
+     -R, --root <dir>     create link to rootfile directory
+     -m, --monitor <dir>  create link to monitoring directory
+     -d, --remove         remove symlinks
+     -h, --help           show brief help
+```
+
 
 ## Tips 
 

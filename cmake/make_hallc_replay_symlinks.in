@@ -7,6 +7,7 @@ REMOVE_LINKS=
 CREATE_DIRS=
 RAW_DIR=
 ROOTFILE_DIR=
+MONITOR_DIR=
 
 while test $# -gt 0; do
   case "$1" in
@@ -71,6 +72,25 @@ while test $# -gt 0; do
       fi
       if [ ! -e "${RAW_DIR}" ] ; then
         echo "${RAW_DIR} does not exist"  >&2
+        exit 1
+      fi
+      shift
+      ;;
+    -m|--monitor)
+      shift
+      if test $# -gt 0; then
+        MONITOR_DIR=$1
+        if [ "${MONITOR_DIR:0:1}" = "-" ] ; then
+          echo "option -m,--monitor requires a directory argument"  >&2
+          exit 1
+        fi
+      else
+        echo "option -m,--monitor requires a directory argument"  >&2
+        echo "no monitor dir specified"  >&2
+        exit 1
+      fi
+      if [ ! -e "${MONITOR_DIR}" ] ; then
+        echo "${MONITOR_DIR} does not exist"  >&2
         exit 1
       fi
       shift
@@ -163,6 +183,10 @@ fi
 
 if [ -n "${RAW_DIR}" ] ; then
   ln -s ${RAW_DIR} raw
+fi
+
+if [ -n "${MONITOR_DIR}" ] ; then
+  ln -s ${MONITOR_DIR} monitoring
 fi
 
 
