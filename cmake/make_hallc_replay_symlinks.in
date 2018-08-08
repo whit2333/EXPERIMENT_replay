@@ -5,6 +5,8 @@ package=make_hallc_replay_symlinks
 
 REMOVE_LINKS=
 CREATE_DIRS=
+RAW_DIR=
+ROOTFILE_DIR=
 
 while test $# -gt 0; do
   case "$1" in
@@ -14,13 +16,16 @@ while test $# -gt 0; do
       echo "     $package [options] "
       echo "      "
       echo "  options:"
-      echo "     -c, --create      create output directories (REPORT_OUTPUT)"
-      echo "     -r, --remove      remove symlinks"
-      echo "     -h, --help        show brief help"
+      echo "     -c, --create         create output directories (REPORT_OUTPUT)"
+      echo "     -r, --raw <dir>      create link to raw directory "
+      echo "     -R, --root <dir>     create link to rootfile directory "
+      echo "     -m, --monitor <dir>  create link to monitoring directory "
+      echo "     -d, --remove         remove symlinks"
+      echo "     -h, --help           show brief help"
       #echo "-o, --output-dir=DIR      specify a directory to store output in"
       exit 0
       ;;
-    -r|--remove)
+    -d|--remove)
       REMOVE_LINKS=1
       shift
       ;;
@@ -32,16 +37,44 @@ while test $# -gt 0; do
     #  export PROCESS=`echo $1 | sed -e 's/^[^=]*=//g'`
     #  shift
     #  ;;
-    #-o)
-    #  shift
-    #  if test $# -gt 0; then
-    #    export OUTPUT=$1
-    #  else
-    #    echo "no output dir specified"
-    #    exit 1
-    #  fi
-    #  shift
-    #  ;;
+    -R|--root)
+      shift
+      if test $# -gt 0; then
+        ROOTFILE_DIR=$1
+        if [ "${ROOTFILE_DIR:0:1}" = "-" ] ; then
+          echo "option -R,--root requires a directory argument"  >&2
+          exit 1
+        fi
+      else
+        echo "option -R,--root requires a directory argument"  >&2
+        echo "no rootfile dir specified"  >&2
+        exit 1
+      fi
+      if [ ! -e "${ROOTFILE_DIR}" ] ; then
+        echo "${ROOTFILE_DIR} does not exist"  >&2
+        exit 1
+      fi
+      shift
+      ;;
+    -r|--raw)
+      shift
+      if test $# -gt 0; then
+        RAW_DIR=$1
+        if [ "${RAW_DIR:0:1}" = "-" ] ; then
+          echo "option -r,--raw requires a directory argument"  >&2
+          exit 1
+        fi
+      else
+        echo "option -r,--raw requires a directory argument"  >&2
+        echo "no raw dir specified"  >&2
+        exit 1
+      fi
+      if [ ! -e "${RAW_DIR}" ] ; then
+        echo "${RAW_DIR} does not exist"  >&2
+        exit 1
+      fi
+      shift
+      ;;
     #--output-dir*)
     #  export OUTPUT=`echo $1 | sed -e 's/^[^=]*=//g'`
     #  shift
@@ -106,7 +139,7 @@ function make_output_dirs(){
 #  main script 
 # -------------------------------------
 
-replay_base_dir=$(hallc_config --dir)
+replay_base_dir=$(@CMAKE_INSTALL_PREFIX@/bin/hallc_config --dir)
 
 for adir in CALIBRATION
 do
@@ -122,6 +155,14 @@ done
 
 if [ -n "${CREATE_DIRS}" ] ; then
   make_output_dirs
+fi
+
+if [ -n "${ROOTFILE_DIR}" ] ; then
+  ln -s ${ROOTFILE_DIR} ROOTfiles
+fi
+
+if [ -n "${RAW_DIR}" ] ; then
+  ln -s ${RAW_DIR} raw
 fi
 
 
