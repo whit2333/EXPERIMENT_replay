@@ -167,7 +167,7 @@ do
   dolinks ${adir} ${my_link}
 done
 
-for adir in  DBASE DEF-files MAPS PARAM TEMPLATES SCRIPTS onlineGUI
+for adir in  DATFILES DBASE DEF-files MAPS PARAM TEMPLATES SCRIPTS onlineGUI
 do
   my_link=${replay_base_dir}/hallc_replay/${adir}
   dolinks ${adir} ${my_link}
