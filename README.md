@@ -8,17 +8,41 @@ git clone --recurse-submodules https://github.com/whit2333/EXPERIMENT_replay.git
 mkdir EXPERIMENT_replay/build && cd EXPERIMENT_replay/build
 cmake ../. -DCMAKE_INSTALL_PREFIX=$HOME && make install
 ```
+If you install into `$HOME` then make sure you have something like this in your 
+`.bashrc`:
+```
+export PATH=$HOME/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/lib:$HOME/lib64:$LD_LIBRARY_PATH
+```
+
 This  installs a few scripts and a header file.
 
-
+```
+mkdir $HOME/my_replay_dir && cd $HOME/my_replay_dir
+make_hallc_replay_symlinks \
+  -R ~/globus_files/hallc/rootfiles \
+  -r ~/globus_files/hallc/raw
+tree                                                                                    
+.
+├── CALIBRATION -> /home/whit/projects/EXPERIMENT_replay/hallc_CALIBRATION/CALIBRATION
+├── DBASE -> /home/whit/projects/EXPERIMENT_replay/hallc_replay/DBASE
+├── DEF-files -> /home/whit/projects/EXPERIMENT_replay/hallc_replay/DEF-files
+├── MAPS -> /home/whit/projects/EXPERIMENT_replay/hallc_replay/MAPS
+├── onlineGUI -> /home/whit/projects/EXPERIMENT_replay/hallc_replay/onlineGUI
+├── PARAM -> /home/whit/projects/EXPERIMENT_replay/hallc_replay/PARAM
+├── raw -> /home/whit/globus_files/hallc/raw
+├── ROOTfiles -> /home/whit/globus_files/hallc/rootfiles
+├── SCRIPTS -> /home/whit/projects/EXPERIMENT_replay/hallc_replay/SCRIPTS
+└── TEMPLATES -> /home/whit/projects/EXPERIMENT_replay/hallc_replay/TEMPLATES
+```
 
 ## Tips 
 
 To make the directories look like the original `hallc_replay` run the script 
-`make_symbolic_links`:
+`make_hallc_replay_symlinks`:
 ```
 $ mkdir -p /tmp/my_replay_dir && cd /tmp/my_replay_dir
-make_hallc_symlinks
+make_hallc_replay_symlinks
 Adding linke CALIBRATION --> hallc_CALIBRATION/CALIBRATION
 Adding linke DBASE --> hallc_replay/DBASE
 Adding linke DEF-files --> hallc_replay/DEF-files
@@ -58,6 +82,7 @@ specified, therefore,  if `hallc_CALIBRATIONS` is  updated for the latest
 running experiment this will not affect the calibrations being used in an older 
 experiment.  You will need to checkout the desired submodule-commit and commit 
 it to the older `EXPERIMENT_replay` (like above).
+
 
 
 
