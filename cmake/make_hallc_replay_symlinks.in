@@ -173,6 +173,12 @@ do
   dolinks ${adir} ${my_link}
 done
 
+for adir in bin analysis
+do
+  my_link=${replay_base_dir}/${adir}
+  dolinks ${adir} ${my_link}
+done
+
 if [ -n "${CREATE_DIRS}" ] ; then
   make_output_dirs
 fi

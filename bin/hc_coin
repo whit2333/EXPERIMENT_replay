@@ -25,6 +25,7 @@ function yes_or_no {
 
 run_number=
 n_events=
+container=
 
 if [[ $# -eq 0 ]] ; then
   print_the_help
@@ -49,6 +50,11 @@ do
     -n|--n-events)
       n_events="$2"
       shift # past argument
+      shift # past value
+      ;;
+    -c|--container)
+      container=1
+      #shift # past argument
       shift # past value
       ;;
     #-a|--all)
@@ -95,7 +101,13 @@ export DB_DIR=DBASE
 #script="analysis/coin_replay.cxx"
 
 #singularity run -a hcana $(hallc_config -d)/cool_halls.simg "SCRIPTS/COIN/PRODUCTION/replay_production_coin_hElec_pProt.C(${run_number},${n_events})"
+if [[ -n ${container} ]] ; then
 singularity run -a hcana $(hallc_config -d)/cool_halls.simg -b -q "analysis/replay_coin.cxx(${run_number},${n_events})"
+else 
+
+  hallc_home=$(hallc_config -d )
+  hcana -b -q "${hallc_home}/analysis/replay_coin.cxx(${run_number},${n_events})"
+fi
 
 #hcana "${script}(${run_number},${n_events})"
 #hcana -b -q "analysis/replay_coin.cxx(${run_number},${n_events})"

@@ -73,7 +73,8 @@ void replay_coin (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   THcAerogel* paero = new THcAerogel("aero", "Aerogel");
   SHMS->AddDetector(paero);
   // Add calorimeter to SHMS apparatus
-  THcShower* pcal = new THcShower("cal", "Calorimeter");
+  auto* pcal = new hcana::Shower2("cal", "Calorimeter");
+  pcal->SetRunNumber(RunNumber);
   SHMS->AddDetector(pcal);
 
   // THcBCMCurrent* hbc = new THcBCMCurrent("H.bcm", "BCM current check");
