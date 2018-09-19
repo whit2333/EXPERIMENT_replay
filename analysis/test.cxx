@@ -8,6 +8,8 @@
 #include "Math/Vector4D.h"
 #include "Math/VectorUtil.h"
 #include "THStack.h"
+R__LOAD_LIBRARY(libMathMore.so)
+R__LOAD_LIBRARY(libGenVector.so)
 
 #include "nlohmann/json.hpp"
 #include "THcParmList.h"
@@ -23,54 +25,53 @@ using floaters = ROOT::VecOps::RVec<float>;
 using shorters = ROOT::VecOps::RVec<short>;
 using FVec     = std::vector<float>;
 
-void test(int RunNumber = 3566) {
+void test(int RunNumber = 3372) {
 
-  std::string hallc_replay_dir = "/home/whit/projects/hall_AC_projects/new_hallc_replay/EXPERIMENT_replay/hallc_replay/";
-  std::string rootfile         = std::string("rootfiles/coin_replay_production_") + std::to_string(RunNumber) + "_200000.root";
+  std::string hallc_replay_dir = std::string(std::getenv("HOME"))+"/work/sidis/";
+  std::string rootfile         = std::string("ROOTfiles/coin_replay_production_") + std::to_string(RunNumber) + "_100000.root";
   std::string run_list_json  = "DBASE/run_list.json";
 
   THcParmList* hc_parms = new THcParmList();
   hc_parms->Define("gen_run_number", "Run Number", RunNumber);
-  hc_parms->AddString("g_ctp_database_filename", (hallc_replay_dir+"DBASE/SHMS/standard.database").c_str() );
+  hc_parms->AddString("g_ctp_database_filename", (hallc_replay_dir+"DBASE/COIN/standard.database").c_str() );
   hc_parms->Load(hc_parms->GetString("g_ctp_database_filename"), RunNumber);
   hc_parms->Load(hc_parms->GetString("g_ctp_parm_filename"));
   hc_parms->Load(hc_parms->GetString("g_ctp_kinematics_filename"), RunNumber);
 
-  auto j = nlohmann::json::parse(hc_parms->PrintJSON(RunNumber));
-  auto htheta_lab = hc_parms->Find("htheta_lab");
-  htheta_lab->Print();
-  auto ptheta_lab = hc_parms->Find("ptheta_lab");
-  ptheta_lab->Print();
-  auto hpcentral = hc_parms->Find("hpcentral");
-  hpcentral->Print();
-  auto ppcentral = hc_parms->Find("ppcentral");
-  ppcentral->Print();
+  //auto j = nlohmann::json::parse(hc_parms->PrintJSON(RunNumber));
+  //auto htheta_lab = hc_parms->Find("htheta_lab");
+  //htheta_lab->Print();
+  //auto ptheta_lab = hc_parms->Find("ptheta_lab");
+  //ptheta_lab->Print();
+  //auto hpcentral = hc_parms->Find("hpcentral");
+  //hpcentral->Print();
+  //auto ppcentral = hc_parms->Find("ppcentral");
+  //ppcentral->Print();
   //std::cout << j.dump()  << "\n";
 
-  std::cout << hcana::json::FindVarValueOr(hc_parms,"ppcentral",1.0) << std::endl;;
+  //std::cout << hcana::json::FindVarValueOr(hc_parms,"ppcentral",1.0) << std::endl;;
 
-  nlohmann::json j2;
-  {
-    ifstream  in_run_file(run_list_json);
-    in_run_file >> j2;
-  }
-  //if( j2.find(std::to_string(RunNumber)) == j2.end() ) {
+  //nlohmann::json j2;
+  //{
+  //  ifstream  in_run_file(run_list_json);
+  //  in_run_file >> j2;
   //}
-  j2[std::to_string(RunNumber)] = j[std::to_string(RunNumber)];
+  ////if( j2.find(std::to_string(RunNumber)) == j2.end() ) {
+  ////}
+  //j2[std::to_string(RunNumber)] = j[std::to_string(RunNumber)];
 
-  {
-    //std::cout << j.dump(2) << "\n";
-    // write prettified JSON to another file
-    std::ofstream o(run_list_json);
-    o << std::setw(4) << j2 << std::endl;
-  }
+  //{
+  //  //std::cout << j.dump(2) << "\n";
+  //  // write prettified JSON to another file
+  //  std::ofstream o(run_list_json);
+  //  o << std::setw(4) << j2 << std::endl;
+  //}
 
   //std::cout << j2.dump() << "\n";
 
   ROOT::EnableImplicitMT(4);
 
   Pvec4D  Pbeam(0,0,10.6,0.000511);
-
 
   ROOT::RDataFrame d("T",rootfile);
 
@@ -167,8 +168,8 @@ void test(int RunNumber = 3566) {
   h_EOverP_nGood_3->DrawCopy("same");
 
   c->cd(3);
-  auto hmax = h_cer_0->GetMaximum();
-  h_cer_2->SetMaximum(hmax/20.0);
+  //auto hmax = h_cer_0->GetMaximum();
+  //h_cer_2->SetMaximum(hmax/20.0);
   h_cer_2->SetLineColor(2);
   h_cer_2->DrawCopy();
   h_cer_0->DrawCopy("same");
@@ -184,15 +185,15 @@ void test(int RunNumber = 3566) {
   c = new TCanvas();
   c->Divide(2,2);
   c->cd(1);
-  hmax = s_aero_npe_0->GetMaximum();
-  s_aero_npe_0->SetMaximum(hmax/20.0);
+  //hmax = s_aero_npe_0->GetMaximum();
+  //s_aero_npe_0->SetMaximum(hmax/20.0);
   s_aero_npe_0->DrawCopy();
   s_aero_npe_2->SetLineColor(2);
   s_aero_npe_2->DrawCopy("same");
 
   c->cd(2);
-  hmax = s_hgc_npe_0->GetMaximum();
-  s_hgc_npe_0->SetMaximum(hmax/20.0);
+  //hmax = s_hgc_npe_0->GetMaximum();
+  //s_hgc_npe_0->SetMaximum(hmax/20.0);
   s_hgc_npe_0->DrawCopy();
   s_hgc_npe_2->SetLineColor(2);
   s_hgc_npe_2->DrawCopy("same");
@@ -201,8 +202,8 @@ void test(int RunNumber = 3566) {
 
 
   c->cd(3);
-  hmax = s_ngc_npe_0->GetMaximum();
-  s_ngc_npe_0->SetMaximum(hmax/100.0);
+  //hmax = s_ngc_npe_0->GetMaximum();
+  //s_ngc_npe_0->SetMaximum(hmax/100.0);
   s_ngc_npe_0->DrawCopy();
   s_ngc_npe_2->SetLineColor(2);
   s_ngc_npe_2->DrawCopy("same");

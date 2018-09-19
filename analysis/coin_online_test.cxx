@@ -106,7 +106,7 @@ void coin_online_test(Int_t RunNumber = 0, Int_t MaxEvent = 0) {
 
   system("xdg-open \"http://localhost:8080?layout=grid2x2&items=[h1/hgcerADChits,shms_HGC/phgcer_tot_npe]&monitoring=1000\"");
 
-  std::string hallc_replay_dir = "/home/whit/projects/hall_AC_projects/new_hallc_replay/EXPERIMENT_replay/hallc_replay/";
+  std::string hallc_replay_dir = "/home/whit/projects/hall_AC/EXPERIMENT_replay/hallc_replay/";
 
   // Get RunNumber and MaxEvent if not provided.
   if(RunNumber == 0) {

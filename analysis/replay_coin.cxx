@@ -1,35 +1,5 @@
-#include <iostream>
-#include <cmath>
-#include "ROOT/RDataFrame.hxx"
-#include "ROOT/RVec.hxx"
-#include "TCanvas.h"
-//#include "ROOT/TCanvas.hxx"
-#include "Math/Vector3D.h"
-#include "Math/Vector4D.h"
-#include "Math/VectorUtil.h"
-R__LOAD_LIBRARY(libMathMore.so)
-R__LOAD_LIBRARY(libGenVector.so)
+void replay_coin (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
 
-#include "THStack.h"
-
-
-//#include "THcGlobals.h"
-#include "THcParmList.h"
-R__LOAD_LIBRARY(libHallA.so)
-R__LOAD_LIBRARY(libdc.so)
-R__LOAD_LIBRARY(libHallC.so)
-
-#include "nlohmann/json.hpp"
-
-void coin_replay (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
-//void replay_production_coin_hElec_pProt (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
-
-  std::string db_dir = std::getenv("PWD");
-
-  if (setenv("DB_DIR","DBASE" , 1)) {
-    std::cout << "Failed to set env var DB_DIR\n";
-    std::exit(EXIT_FAILURE);
-  }
   // Get RunNumber and MaxEvent if not provided.
   if(RunNumber == 0) {
     cout << "Enter a Run Number (-1 to exit): ";
@@ -45,9 +15,6 @@ void coin_replay (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
     }
   }
 
-  std::cout << " RunNumber : " << RunNumber << "\n";
-  std::cout << db_dir << "\n";
-
   // Create file name patterns.
   const char* RunFileNamePattern = "coin_all_%05d.dat";
   vector<TString> pathList;
@@ -57,16 +24,13 @@ void coin_replay (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   pathList.push_back("./cache");
 
   //const char* RunFileNamePattern = "raw/coin_all_%05d.dat";
-  const char* ROOTFileNamePattern = "ROOTfiles/coin_replay_production_%d.root";
+  const char* ROOTFileNamePattern = "ROOTfiles/coin_replay_production_%d_%d.root";
   
-  std::string db_filename = db_dir + "/DBASE/COIN/standard.database";
-
   // Load global parameters
-  std::cout << gHcParms << "\n";
   gHcParms->Define("gen_run_number", "Run Number", RunNumber);
-  gHcParms->AddString("g_ctp_database_filename", db_filename.c_str());
+  gHcParms->AddString("g_ctp_database_filename", "DBASE/COIN/standard.database");
   gHcParms->Load(gHcParms->GetString("g_ctp_database_filename"), RunNumber);
-  gHcParms->Load(db_filename.c_str());
+  gHcParms->Load(gHcParms->GetString("g_ctp_parm_filename"));
   gHcParms->Load(gHcParms->GetString("g_ctp_kinematics_filename"), RunNumber);
   // Load params for COIN trigger configuration
   gHcParms->Load("PARAM/TRIG/tcoin.param");
@@ -93,7 +57,6 @@ void coin_replay (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   SHMS->AddEvtType(6);
   SHMS->AddEvtType(7);
   gHaApps->Add(SHMS);
-
   // Add Noble Gas Cherenkov to SHMS apparatus
   THcCherenkov* pngcer = new THcCherenkov("ngcer", "Noble Gas Cherenkov");
   SHMS->AddDetector(pngcer);
@@ -266,8 +229,7 @@ void coin_replay (Int_t RunNumber = 0, Int_t MaxEvent = 0) {
   run->Print();
 
   // Define the analysis parameters
-  //TString ROOTFileName = Form(ROOTFileNamePattern, RunNumber, MaxEvent);
-  TString ROOTFileName = Form(ROOTFileNamePattern, RunNumber);
+  TString ROOTFileName = Form(ROOTFileNamePattern, RunNumber, MaxEvent);
   analyzer->SetCountMode(2);  // 0 = counter is # of physics triggers
                               // 1 = counter is # of all decode reads
                               // 2 = counter is event number

@@ -1,5 +1,5 @@
 #/bin/bash
-set -u
+#set -u
 
 run_number=3566
 work_dir=
@@ -7,14 +7,21 @@ work_dir=
 print_the_help() {
   echo "Usage: hallc_config [options]"
   echo " options: "
-  echo "         -r,--run      print last run number"
-  echo "         -d,--dir      print the replay directory"
-  echo "         -h,--help     print this help"
+  echo "         -r,--run          print last run number"
+  echo "         -d,--dir          print the replay directory"
+  echo "         -S,--singularity  Download or update singularity image"
+  echo "         -h,--help         print this help"
   exit 
 }
 
 print_latest_run() {
   echo "print_latest_run not yet implemented." >&2
+}
+
+download_singularity_image() {
+  pushd "@HALLC_REPLAY_DIR@"
+  singularity pull --name cool_halls.simg shub://whit2333/cool_halls   # pull with custom name
+  popd
 }
 
 POSITIONAL=()
@@ -25,6 +32,10 @@ do
     -h|--help)
       shift # past argument
       print_the_help
+      ;;
+    -S|--singularity)
+      download_singularity_image
+      shift;
       ;;
     -r|--run)
       print_latest_run

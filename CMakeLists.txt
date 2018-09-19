@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.6)
 project(HallCReplay 
   VERSION 0.0.1 
   LANGUAGES CXX
-  DESCRIPTION "A better experiment replay" # cmake >=3.9.2
+  #DESCRIPTION "A better experiment replay" # cmake >=3.9.2
   #HOMEPAGE_URL https://github.com/whit2333/EXPERIMENT_replay # only cmake >3.12
   )
 
